@@ -1,0 +1,30 @@
+db:
+  image: postgres
+  ports:
+    - "5432"
+  env_file: ./envs/dev/env
+  volumes:
+    - /var/lib/postgresql
+
+redis:
+  image: redis
+  env_file: ./envs/dev/env
+  ports:
+    - "6379"
+  volumes:
+    - /data
+
+desire:
+  build: .
+  dockerfile: Dockerfile_runserver
+  env_file: ./envs/dev/env
+  tty: true
+  stdin_open: true
+  links:
+    - db
+    - redis
+  ports:
+    - "8000:8000"
+  volumes:
+    - ./src/prioritizator:/usr/src/app
+    - ./envs/dev/python:/usr/src/env

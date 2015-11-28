@@ -1,0 +1,4 @@
+POSTGRES_USER=desire
+POSTGRES_PASSWORD=passw
+DB_URL=postgres://desire:passw@db:5432/desire
+DEBUG=True

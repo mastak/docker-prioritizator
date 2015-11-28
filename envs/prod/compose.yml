@@ -1,0 +1,7 @@
+db:
+  volumes:
+    - /data/desire/postgresql:/var/lib/postgresql
+
+redis:
+  volumes:
+    - /data/desire/redis:/data

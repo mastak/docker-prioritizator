@@ -1,0 +1,36 @@
+FROM nginx
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        vim \
+        python-dev \
+        python-setuptools \
+        python-pip \
+        supervisor \
+        gcc \
+        libmysqlclient-dev \
+        ca-certificates && \
+    apt-get clean && \
+    pip install -U pip && \
+    pip install uwsgi && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY files/config/nginx-ops.conf /etc/nginx/conf.d/ops.conf
+COPY files/config/supervisor-web.conf /etc/supervisor/conf.d/web.conf
+COPY files/config/uwsgi.ini /uwsgi.ini
+
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
+    rm /etc/nginx/conf.d/default.conf
+
+COPY src/prioritizator/requirements.txt /usr/src/app/requirements.txt
+RUN pip install -r /usr/src/app/requirements.txt
+
+COPY src/prioritizator /usr/src/app
+
+RUN python /usr/src/app/manage.py collectstatic -c --noinput
+
+WORKDIR /usr/src/app
+
+EXPOSE 80
+
+CMD ["supervisord", "-n"]

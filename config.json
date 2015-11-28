@@ -1,0 +1,21 @@
+{
+  "dev": {
+    "compose_files": [],
+    "envs": "./envs/dev/env",
+    "db_init": ["./files/db/desire.sql"]
+  },
+  "prod": {
+    "compose_files": ["docker-compose.uwsgi.yml", "envs/prod/compose.yml"],
+    "project_name": "priority_prod",
+    "envs": "./envs/prod/env",
+    "db_init": ["./files/db/desire.sql"],
+    "is_uwsgi": true
+  },
+  "stage": {
+    "compose_files": ["docker-compose.uwsgi.yml", "envs/stage/compose.yml"],
+    "project_name": "priority_stage",
+    "envs": "./envs/stage/env",
+    "db_init": ["./files/db/desire.sql"],
+    "is_uwsgi": true
+  }
+}

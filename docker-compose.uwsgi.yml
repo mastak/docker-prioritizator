@@ -1,0 +1,25 @@
+db:
+  image: postgres
+  env_file: ${ENV_PATH}
+  ports:
+    - "5432"
+  volumes:
+    - /var/lib/mysql
+
+redis:
+  image: redis
+  env_file: ${ENV_PATH}
+  ports:
+    - "6379"
+  volumes:
+    - /data
+
+desire:
+  build: .
+  dockerfile: Dockerfile_uwsgi
+  env_file: ${ENV_PATH}
+  links:
+    - db
+    - redis
+  ports:
+    - "8000"

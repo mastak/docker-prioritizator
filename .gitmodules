@@ -1,0 +1,3 @@
+[submodule "src/prioritizator"]
+	path = src/prioritizator
+	url = git@github.com:mastak/prioritizator.git
